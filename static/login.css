@@ -1,0 +1,92 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 1.5rem 25rem;  
+    box-sizing: border-box;
+    background-color: var(--blush-petal);
+    font-family: 'Georgia', 'Times New Roman', 'Sans-serif', 'Arial';
+    color: var(--dark-rosewood);
+}
+
+h1 {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+p {
+    text-align: center;
+    font-style: italic;
+    color: color-mix(in srgb, var(--dark-rosewood) 50%, transparent);
+}
+
+[name="auth-tab"] {
+    display: none;
+    font-weight: bold;
+    text-align: center;
+    border: 1rem;
+}
+
+.sign-in {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2rem;
+    width: 100%;
+    font-size: 14px;
+    color: var(--misty-sky);
+    background-color: var(--dark-sky);
+    border-radius: 10px;
+}
+
+.sign-up {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2rem;
+    width: 100%;
+    font-size: 14px;
+    color: var(--misty-sky);
+    background-color: var(--dark-sky);
+    border-radius: 10px;
+}
+
+.name-row {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.name-row .input-group {
+    flex: 1;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.input-group input {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--misty-sky);
+    color: var(--dark-sky);
+    padding: 0.75rem;
+    border-radius: 10px;
+    border: 1px solid;
+}
+
+button {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--misty-sky);
+    color: var(--dark-sky);
+    padding: 0.75rem;
+    border-radius: 10px;
+    border: 1px solid;
+}
+

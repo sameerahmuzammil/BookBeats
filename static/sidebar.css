@@ -1,3 +1,35 @@
-.nav-toggle:checked ~ .side-panel {
+.nav-toggle {
+    display: none;
+}
+
+.open-btn {
+    font-size: 25px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.side-panel {
+    position: fixed;
+    left: -260px;
+    width: 260px;
+    height: 100%;
     background-color: var(--sage-leaf);
+    transition: left 0.5s ease-in-out;
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+    box-shadow: 2px 0 3px rgba(0,0,0,0.15);
+}
+
+.side-panel a {
+    text-decoration: none;
+    color: var(--dark-sage);
+    font-family: 'Georgia', 'Times New Roman', 'Sans-serif', 'Arial';
+    font-size: 16px;
+}
+
+.nav-toggle:checked ~ .side-panel {
+    left: 0px;
 }
