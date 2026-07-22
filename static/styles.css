@@ -1,0 +1,8 @@
+@import url('sidebar.css');
+@import url('login.css');
+
+:root {
+    --sage-leaf: #a8b58a;
+    --misty-sky: #a9b7c6;
+    --rosewood: #b46a72;
+}

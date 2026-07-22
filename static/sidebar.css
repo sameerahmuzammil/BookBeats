@@ -1,0 +1,3 @@
+.nav-toggle:checked ~ .side-panel {
+    background-color: var(--sage-leaf);
+}

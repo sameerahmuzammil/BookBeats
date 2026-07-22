@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../static/styles.css">
+        <!--change the href to {{ url_for('static', path='/styles.css') }} when using jinja2templates-->
+        <title>BookBeats Login/Signup Page</title>
+    </head>
+    <body>
+        <div>
+            <h1>Welcome to BookBeats!</h1>
+            <p>Please sign in to continue...</p>
+            <div>
+                <input type="radio" id="signin-tab" name="auth-tab" checked>
+                <input type="radio" id="signup-tab" name="auth-tab">
+                <div>
+                    <label for="signin-tab">Sign In</label>
+                    <label for="signup-tab">Sign Up</label>
+                </div>
+                <form>
+                    <label>Email:</label>
+                    <input id="signin-email" type="text" required placeholder="Email">
+                    <label for="signin-password">Password:</label>
+                    <input type="password" id="signin-password" required placeholder="Password" minlength="8">
+                    <button>Login</button>
+                </form>
+                <form>
+                    <label for="first-name">First Name</label>
+                    <input type="text" required id="first-name">
+                    <label for="last-name">Last Name</label>
+                    <input type="text" required id="last-name">
+                    <label for="signup-email">Email:</label>
+                    <input id="signup-email" type="text" required placeholder="Email">
+                    <label for="signup-password">Password:</label>
+                    <input type="password" id="signup-password" required placeholder="Password" minlength="8">
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input type="password" id="confirm-password" required placeholder="Password" minlength="8">
+                    <button>Signup</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
