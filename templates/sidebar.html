@@ -4,8 +4,11 @@
 <label for="nav-toggle" class="sidebar-overlay"></label>
 
 <div class="side-panel">
-  <a href="../templates/home.html">Home</a>
-  <a href="../templates/toberead.html">To Be Read</a>
-  <a href="../templates/packages.html">Packages</a>
-  <a href="../templates/dashboard.html">Dashboard</a>
+  <a href="{{ url_for('templates', path('/home.html')) }}">Home</a>
+  <a href="{{ url_for('templates', path('/library.html')) }}">To Be Read</a>
+  <a href="{{ url_for('templates', path('/packages.html')) }}">Packages</a>
+  <a href="{{ url_for('templates', path('/dashboard.html')) }}">Dashboard</a>
+  <!--the urls don't work becuz jinja2templates is not working-->
+  <!-- some issue in backend, fix after studying -->
+  <!-- until jinja2 works, copy-paste this into other files -->
 </div>

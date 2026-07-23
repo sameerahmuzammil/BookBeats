@@ -3,10 +3,25 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../static/styles.css">
-        <!--change the href to {{ url_for('static', path='/styles.css') }} when using jinja2templates-->
-        <title>BookBeats Home Page</title>
+        <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+        <title>BookBeats Home</title>
     </head>
     <body>
-        <!--{% include 'sidebar.html' %} write this once you have jinja2templates running in backend-->
+        <div class="sidebar">
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <label for="nav-toggle" class="open-btn">☰</label>
+
+            <label for="nav-toggle" class="sidebar-overlay"></label>
+
+            <div class="side-panel">
+                <a href="{{ url_for('templates', path('/home.html')) }}">Home</a>
+                <a href="{{ url_for('templates', path('/library.html')) }}">To Be Read</a>
+                <a href="{{ url_for('templates', path('/packages.html')) }}">Packages</a>
+                <a href="{{ url_for('templates', path('/dashboard.html')) }}">Dashboard</a>
+            </div>
+        </div>
+        <div class="main-container">
+            <h1>Welcome to BookBeats</h1>        
+        </div>
     </body>
+</html>

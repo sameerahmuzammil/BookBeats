@@ -1,8 +1,10 @@
 body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    width: 100%;
     margin: 0;
     padding: 1.5rem 25rem;  
     box-sizing: border-box;
@@ -25,9 +27,26 @@ p {
 
 [name="auth-tab"] {
     display: none;
+}
+
+.holds-tabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.tabs {
+    padding: 0.75rem;
     font-weight: bold;
     text-align: center;
-    border: 1rem;
+    border: 1px solid;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: var(--dark-rosewood);
 }
 
 .sign-in {
@@ -39,7 +58,10 @@ p {
     font-size: 14px;
     color: var(--misty-sky);
     background-color: var(--dark-sky);
+    border: 1px solid;
     border-radius: 10px;
+    border-style: solid;
+    border-color: black;
 }
 
 .sign-up {
@@ -51,7 +73,10 @@ p {
     font-size: 14px;
     color: var(--misty-sky);
     background-color: var(--dark-sky);
+    border: 1px solid;
     border-radius: 10px;
+    border-style: solid;
+    border-color: black;
 }
 
 .name-row {
@@ -78,6 +103,8 @@ p {
     padding: 0.75rem;
     border-radius: 10px;
     border: 1px solid;
+    border-style: solid;
+    border-color: black;
 }
 
 button {
@@ -88,5 +115,40 @@ button {
     padding: 0.75rem;
     border-radius: 10px;
     border: 1px solid;
+    border-style: solid;
+    border-color: black; 
 }
 
+.sign-up, .sign-in {
+    display: none;
+}
+
+#signin-tab:checked ~ .sign-in {
+    display: flex;
+}
+
+#signup-tab:checked ~ .sign-up {
+    display: flex;
+}
+
+#signin-tab:checked ~ .holds-tabs [for='signin-tab'], #signup-tab:checked ~ .holds-tabs [for='signup-tab'] {
+    background-color: var(--dark-rosewood);
+    color: var(--blush-petal);
+    border-radius: 10px;
+    border: 1px solid;
+    border-style: solid;
+    border-color: black;
+}
+
+.input-group input, button, .tabs {
+    transition: opacity 0.2s ease-in-out; 
+}
+
+.input-group input:hover, button:hover, .tabs:hover {
+    opacity: 0.90;
+    cursor: pointer;
+}
+
+.input-group input:active, button:active, .tabs:active {
+    opacity: 0.65;
+}

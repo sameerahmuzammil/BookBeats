@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+        <title>BookBeats Packages</title>
+    </head>
+    <body>
+        <div class="sidebar">
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <label for="nav-toggle" class="open-btn">☰</label>
+
+            <label for="nav-toggle" class="sidebar-overlay"></label>
+
+            <div class="side-panel">
+                <a href="{{ url_for('templates', path('/home.html')) }}">Home</a>
+                <a href="{{ url_for('templates', path('/library.html')) }}">To Be Read</a>
+                <a href="{{ url_for('templates', path('/packages.html')) }}">Packages</a>
+                <a href="{{ url_for('templates', path('/dashboard.html')) }}">Dashboard</a>
+            </div>
+        </div>
+        <div class="main-container">
+            <h1>Packages</h1>        
+        </div>
+    </body>
+</html>
