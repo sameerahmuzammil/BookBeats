@@ -3,6 +3,10 @@
 }
 
 .open-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
     font-size: 25px;
     cursor: pointer;
     user-select: none;
@@ -10,26 +14,36 @@
 
 .side-panel {
     position: fixed;
+    top: 0;
     left: -260px;
     width: 260px;
     height: 100%;
+    z-index: 99;
     background-color: var(--sage-leaf);
     transition: left 0.5s ease-in-out;
 
     display: flex;
     flex-direction: column;
     gap: 15px;
-    padding: 15px;
-    box-shadow: 2px 0 3px rgba(0,0,0,0.15);
+    padding: 70px 20px;
+    box-sizing: border-box;
+    border-color: var(--dark-sage);
+    border-width: 1px;
+    border-style: solid;
+    box-shadow: 2px 0 3px rgba(0,0,0,0.1);
 }
 
 .side-panel a {
     text-decoration: none;
     color: var(--dark-sage);
     font-family: 'Georgia', 'Times New Roman', 'Sans-serif', 'Arial';
-    font-size: 16px;
+    font-size: 20px;
 }
 
 .nav-toggle:checked ~ .side-panel {
     left: 0px;
+}
+
+.nav-toggle:checked ~ .open-btn {
+    color: var(--dark-sage)
 }

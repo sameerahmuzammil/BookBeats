@@ -3,14 +3,14 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
+        <link rel="stylesheet" href="../static/styles.css">
         <!--change the href to {{ url_for('static', path='/styles.css') }} when using jinja2templates-->
         <title>BookBeats Login/Signup Page</title>
     </head>
-    <body>
-        <div>
-            <h1>Welcome to BookBeats!</h1>
-            <p>Please sign in to continue...</p>
+    <body class="login-body">
+        <div class="login-wrapper">
+            <h1 id="login-page-heading">Welcome to BookBeats!</h1>
+            <p id="login-page-statement">Please sign in to continue...</p>
             <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
                 <input type="radio" id="signin-tab" name="auth-tab" checked>
                 <input type="radio" id="signup-tab" name="auth-tab">

@@ -6,10 +6,36 @@
         <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
         <title>BookBeats Home</title>
     </head>
-    <body>
+    <body class="home-body">
         {% include 'sidebar.html' %}
-        <div class="main-container">
-            <h1>Welcome to BookBeats</h1>        
+        <div>
+            <h1 style="display: flex; justify-content: center;">Welcome to BookBeats</h1>
+            <div class="content">
+                <div class="current-books">
+                    <h2>My Current Reads</h2>
+                    <div class="book-flex-container">
+                        {% for book in books %}
+                            {% if book.status == 'Currently Reading'%}
+                                <div class="book-card">
+                                    <img src="{{ book.cover_url }}" alt="Cover">
+                                    <div>
+                                        <h3>{{ book.book_name }}</h3>
+                                        <p>Author: {{ book.author }}</p>
+                                        <p>Rating: {{ book.user_rating }}</p>
+                                        <p>Current Page: {{ book.current_page }}</p>
+                                        <p>Total Pages: {{ book.total_pages }}</p>
+                                        <p>Progress: {{ ((book.current_page / book.total_pages) * 100) | round | int }}%</p>
+                                        <p>Last Read: {{ book.last_read }}</p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="song">
+
+                </div>
+            </div>  
         </div>
     </body>
 </html>

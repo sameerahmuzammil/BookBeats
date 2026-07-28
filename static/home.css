@@ -1,0 +1,34 @@
+.home-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--blush-petal);
+    color: var(--dark-rosewood);
+}
+
+.book-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border-color: var(--dark-sky);
+    border-style: solid;
+    background-color: var(--misty-sky);
+    color: var(--dark-sky);
+    padding: 15px;
+    gap: 15px;
+    border-width: 1px;
+    flex: 1 1 calc(50% - 10px);
+    min-width: 280px;
+}
+
+.book-flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
