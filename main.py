@@ -2,6 +2,9 @@ from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
+import models, database,requests
+
+models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
 
@@ -63,3 +66,27 @@ def packages(request: Request):
 @app.get("/dashboard", include_in_schema=False)
 def dashboard(request: Request):
     return templates.TemplateResponse(request, "dashboard.html")
+
+@app.get("/search-book")
+def fetch_books(search: str, request: Request):
+    db = database.Session
+
+    url = f"https://openlibrary.org/search.json?q={search.replace(" ", "+")}&limit=10"
+    response = requests.get(url).json()
+
+    results = response.get("docs", [])[:10]
+
+    formatted_results = []
+
+    for book_data in results:
+        clean_book = {
+            "title": book_data.get("title"),
+            "author": book_data.get("author_name", "Unknown"),
+            "cover_id": book_data.get("cover_i"),
+            "total_pages": book_data.get("number_of_pages_median", 0),
+            "avg_rating": book_data.get("ratings_average", 0.0)
+        }
+        formatted_results.append(clean_book)
+
+    db.close()
+    return templates.TemplateResponse("library.html", request, {"books": formatted_results})
