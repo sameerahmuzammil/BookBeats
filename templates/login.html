@@ -18,7 +18,7 @@
                     <label for="signin-tab" class="tabs">Sign In</label>
                     <label for="signup-tab" class="tabs">Sign Up</label>
                 </div>
-                <form class="sign-in">
+                <form class="sign-in" action="/login" method="post">
                     <div class="input-group">
                         <label>Email:</label>
                         <input id="signin-email" type="text" required placeholder="Email">
@@ -29,7 +29,7 @@
                     </div>
                     <button>Login</button>
                 </form>
-                <form class="sign-up">
+                <form class="sign-up" action="/signup" method="post">
                     <div class="name-row">
                         <div class="input-group">
                             <label for="first-name">First Name</label>
