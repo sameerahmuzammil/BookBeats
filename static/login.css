@@ -1,4 +1,4 @@
-.login-body {
+.login-body, .signup-body {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -13,24 +13,21 @@
     color: var(--dark-rosewood);
 }
 
-.login-wrapper {
+.login-wrapper, .signup-wrapper {
+    width: 100%;
     max-width: 420px;
 }
 
-#login-page-heading {
+#login-page-heading, #signup-page-heading {
     text-align: center;
     width: 100%;
     margin-bottom: 2rem;
 }
 
-#login-page-statement {
+#login-page-statement, #signup-page-statement {
     text-align: center;
     font-style: italic;
     color: color-mix(in srgb, var(--dark-rosewood) 50%, transparent);
-}
-
-[name="auth-tab"] {
-    display: none;
 }
 
 .holds-tabs {
@@ -41,6 +38,7 @@
     padding: 10px;
     width: 100%;
     box-sizing: border-box;
+    margin-bottom: 1rem;
 }
 
 .tabs {
@@ -51,25 +49,21 @@
     border-radius: 10px;
     border-style: solid;
     border-color: var(--dark-rosewood);
+    color: var(--dark-rosewood);
+    text-decoration: none;
 }
 
-.sign-in {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 2rem;
-    width: 100%;
-    font-size: 14px;
-    color: var(--misty-sky);
-    background-color: var(--dark-sky);
-    border: 1px solid;
+.tabs.active-tab {
+    background-color: var(--dark-rosewood);
+    color: var(--blush-petal);
     border-radius: 10px;
+    border: 1px solid;
     border-style: solid;
     border-color: black;
 }
 
-.sign-up {
-    display: flex;
+.sign-in, .sign-up {
+    display: flex; 
     flex-direction: column;
     gap: 1rem;
     padding: 2rem;
@@ -121,27 +115,6 @@ button {
     border: 1px solid;
     border-style: solid;
     border-color: black; 
-}
-
-.sign-up, .sign-in {
-    display: none;
-}
-
-#signin-tab:checked ~ .sign-in {
-    display: flex;
-}
-
-#signup-tab:checked ~ .sign-up {
-    display: flex;
-}
-
-#signin-tab:checked ~ .holds-tabs [for='signin-tab'], #signup-tab:checked ~ .holds-tabs [for='signup-tab'] {
-    background-color: var(--dark-rosewood);
-    color: var(--blush-petal);
-    border-radius: 10px;
-    border: 1px solid;
-    border-style: solid;
-    border-color: black;
 }
 
 .input-group input, button, .tabs {

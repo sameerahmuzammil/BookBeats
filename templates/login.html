@@ -3,56 +3,29 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../static/styles.css">
-        <!--change the href to {{ url_for('static', path='/styles.css') }} when using jinja2templates-->
-        <title>BookBeats Login/Signup Page</title>
+        <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
+        <!--change the href to {{ url_for('static', path='styles.css') }} when using jinja2templates-->
+        <title>BookBeats Login Page</title>
     </head>
     <body class="login-body">
         <div class="login-wrapper">
             <h1 id="login-page-heading">Welcome to BookBeats!</h1>
             <p id="login-page-statement">Please sign in to continue...</p>
             <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-                <input type="radio" id="signin-tab" name="auth-tab" checked>
-                <input type="radio" id="signup-tab" name="auth-tab">
-                <div class="holds-tabs">
-                    <label for="signin-tab" class="tabs">Sign In</label>
-                    <label for="signup-tab" class="tabs">Sign Up</label>
+            <div class="holds-tabs">
+                    <span class="tabs active-tab">Sign In</span>
+                    <a href="{{ url_for('signup_page')}}" class="tabs">Sign Up</a>
                 </div>
                 <form class="sign-in" action="/login" method="post">
                     <div class="input-group">
                         <label>Email:</label>
-                        <input id="signin-email" type="text" required placeholder="Email">
+                        <input id="signin-email" type="email" name="email" required placeholder="Email">
                     </div>
                     <div class="input-group">
                         <label for="signin-password">Password:</label>
-                        <input type="password" id="signin-password" required placeholder="Password" minlength="8">
+                        <input type="password" id="signin-password" name="password" required placeholder="Password" minlength="8">
                     </div>
                     <button>Login</button>
-                </form>
-                <form class="sign-up" action="/signup" method="post">
-                    <div class="name-row">
-                        <div class="input-group">
-                            <label for="first-name">First Name</label>
-                            <input type="text" required id="first-name" placeholder="First Name">
-                        </div>
-                        <div class="input-group">
-                            <label for="last-name">Last Name</label>
-                            <input type="text" required id="last-name" placeholder="Last Name">
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label for="signup-email">Email:</label>
-                        <input id="signup-email" type="text" required placeholder="Email">
-                    </div>
-                    <div class="input-group">
-                        <label for="signup-password">Password:</label>
-                        <input type="password" id="signup-password" required placeholder="Password" minlength="8">
-                    </div>
-                    <div class="input-group">
-                        <label for="confirm-password">Confirm Password:</label>
-                        <input type="password" id="confirm-password" required placeholder="Password" minlength="8">
-                    </div>
-                    <button>Signup</button>
                 </form>
             </div>
         </div>

@@ -1,16 +1,17 @@
 #this file only uses get and post method as i'm not using javascript
-#this file currently assumes user id to be 1
 
 from fastapi import FastAPI, Request, Form, status
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse,  RedirectResponse
-import models, database,requests
-from passlib.context import CryptContext
+from starlette.middleware.sessions import SessionMiddleware
+import models, database, requests, hashlib
 
 models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
+
+app.add_middleware(SessionMiddleware, secret_key="bookbeats-2008-2026")
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -55,11 +56,14 @@ books = [
     }
 ]
 
-#login and signup forms don't have assocoiated actions yet in frontend.
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
 
 @app.post("/signup")
-def signup_user(first_name: str = Form(), last_name: str = Form(), email: str = Form(), password: str = Form()):
+def signup_user(request: Request, first_name: str = Form(), last_name: str = Form(), email: str = Form(), password: str = Form(), confirm_pass: str = Form()):
+    if confirm_pass != password:
+        return {"error": "Passwords do not match! Please try again."}
+
     db = database.Session()
     email_taken = False
     all_users = db.query(models.User).all()
@@ -73,14 +77,14 @@ def signup_user(first_name: str = Form(), last_name: str = Form(), email: str = 
         db.close()
         return {"error": "An account with this email already exists!"}
     else:
-        hashed_pass = pwd_context.hash(password)
-        new_user = models.User(first_name=first_name, last_name=last_name, email=email, password=hashed_pass)
+        hashed_pass = hash_password(password)
+        new_user = models.User(first_name=first_name.strip(), last_name=last_name.strip(), email=email.strip(), password=hashed_pass)
         db.add(new_user)
         db.commit()
 
     db.close()
-
-    return RedirectResponse(url="/login", status_code=status.HTTP_303_SEE_OTHER)
+    domain = request.headers.get("host")
+    return RedirectResponse(url=f"https://{domain}/login", status_code=status.HTTP_303_SEE_OTHER)
 
 @app.post("/login")
 def login_user(request: Request, email: str = Form(), password: str = Form()):
@@ -96,17 +100,25 @@ def login_user(request: Request, email: str = Form(), password: str = Form()):
             break
 
     if account_found:
-        hashed_pass = pwd_context.hash(password)
-        if hashed_pass == user_record.password:
+        if hash_password(password) == user_record.password:
             request.session["user_id"] = user_record.user_id
             db.close()
-            return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+            domain = request.headers.get("host")
+            return RedirectResponse(url=f"http://{domain}/", status_code=status.HTTP_303_SEE_OTHER)
         else:
             db.close()
             return {"error": "Incorrect password. Please try again."}
     
     db.close()
     return {"error": "No account associated with this email address. Please sign up first."}
+
+@app.get("/login", include_in_schema=False)
+def login_page(request: Request):
+    return templates.TemplateResponse(request, "login.html")
+
+@app.get("/signup", include_in_schema=False)
+def signup_page(request: Request):
+    return templates.TemplateResponse(request, "signup.html")
 
 @app.get("/", include_in_schema=False)
 def home(request: Request):
@@ -126,7 +138,6 @@ def dashboard(request: Request):
 
 @app.get("/search-book") #frontend to be written
 def fetch_books(search: str, request: Request):
-    db = database.Session
     url = f"https://openlibrary.org/search.json?q={search.replace(" ", "+")}&limit=10"
     response = requests.get(url).json()
     results = response.get("docs", [])[:10]
@@ -141,34 +152,58 @@ def fetch_books(search: str, request: Request):
             "avg_rating": book_data.get("ratings_average", 0.0)
         }
         formatted_results.append(clean_book)
-
-    db.close()
-    
-    return templates.TemplateResponse("library.html", request, {"books": formatted_results})
+  
+    return templates.TemplateResponse(request, "library.html", {"books": formatted_results})
 
 @app.post("/library/tbr") #frontend to be written
-def add_to_tbr(title: str = Form(), author: str = Form(), cover_id: int = Form(), total_pages: int = Form(), avg_rating: float = Form()):
+def add_to_tbr(request: Request, title: str = Form(), author: str = Form(), cover_id: int = Form(), total_pages: int = Form(), avg_rating: float = Form()):
+    current_user_id = request.session.get("user_id")
+    if not current_user_id:
+        return RedirectResponse(url="/login", status_code=status.HTTP_303_SEE_OTHER)
+    
     db = database.Session()
     found = False
+    assigned_id = None
     all_books = db.query(models.Book).all()
 
     for book in all_books:
         if title == book.title:
-            id = book.book_id
+            assigned_id = book.book_id
             found = True
             break
 
     if found:
-        new_tbr_book = models.TbrBook(book_id = id, user_id = 1)
+        new_tbr_book = models.TbrBook(book_id = assigned_id, user_id = current_user_id)
         db.add(new_tbr_book)
     else:
         new_book_row = models.Book(title = title, author = author, cover_id = cover_id, total_pages = total_pages, avg_rating = avg_rating)
         db.add(new_book_row)
         db.flush()    
-        new_tbr_book = models.TbrBook(book_id = new_book_row.book_id, user_id = 1)
+        new_tbr_book = models.TbrBook(book_id = new_book_row.book_id, user_id = current_user_id)
         db.add(new_tbr_book)
 
     db.commit()
     db.close()
 
     return {"status": "success"}
+
+@app.post("/update-status") #add a hidden input that gives bookid in frontend
+def update_status(request: Request, book_id: int = Form(), selected_status: str = Form()):
+    current_user_id = request.session.get("user_id")
+    if not current_user_id:
+        return RedirectResponse(url="/login", status_code=status.HTTP_303_SEE_OTHER)
+    
+    db = database.Session()
+    all_books = db.query(models.TbrBook).all()
+    status_updated = False
+
+    for book in all_books:
+        if book.book_id == book_id and book.user_id == current_user_id:
+            book.status = selected_status
+            db.commit()
+            status_updated = True
+
+    if status_updated:
+        return RedirectResponse(url="/library", status_code=status.HTTP_303_SEE_OTHER)
+    else:
+        return {"error": "Book not found in TBR."}

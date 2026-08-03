@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
+        <!--change the href to {{ url_for('static', path='styles.css') }} when using jinja2templates-->
+        <title>BookBeats Signup Page</title>
+    </head>
+    <body class="signup-body">
+        <div class="signup-wrapper">
+            <h1 id="signup-page-heading">Welcome to BookBeats!</h1>
+            <p id="signup-page-statement">Please sign in to continue...</p>
+            <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <div class="holds-tabs">
+                    <a href="{{ url_for('login_page')}}" class="tabs">Sign In</a>
+                    <span class="tabs active-tab">Sign Up</span>
+                </div>
+                
+                <form class="sign-up" action="/signup" method="post">
+                    <div class="name-row">
+                        <div class="input-group">
+                            <label for="first-name">First Name</label>
+                            <input type="text" required id="first-name" name="first_name" placeholder="First Name">
+                        </div>
+                        <div class="input-group">
+                            <label for="last-name">Last Name</label>
+                            <input type="text" required id="last-name" name="last_name" placeholder="Last Name">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="signup-email">Email:</label>
+                        <input id="signup-email" type="email" required name="email" placeholder="Email">
+                    </div>
+                    <div class="input-group">
+                        <label for="signup-password">Password:</label>
+                        <input type="password" id="signup-password" name="password" required placeholder="Password" minlength="8">
+                    </div>
+                    <div class="input-group">
+                        <label for="confirm-password">Confirm Password:</label>
+                        <input type="password" id="confirm-password" name="confirm_pass" required placeholder="Password" minlength="8">
+                    </div>
+                    <button>Signup</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
