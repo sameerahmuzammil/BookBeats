@@ -1,0 +1,14 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 1.5rem; 
+    box-sizing: border-box;
+    background-color: var(--blush-petal);
+    font-family: 'Georgia', 'Times New Roman', 'Sans-serif', 'Arial';
+    color: var(--dark-rosewood);
+}

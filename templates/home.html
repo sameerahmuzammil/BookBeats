@@ -21,7 +21,7 @@
                                     <div>
                                         <h3>{{ book.book_name }}</h3>
                                         <p>Author: {{ book.author }}</p>
-                                        <p>Rating: {{ book.user_rating }}</p>
+                                        <p>Rating: {{ book.avg_rating }}</p>
                                         <p>Current Page: {{ book.current_page }}</p>
                                         <p>Total Pages: {{ book.total_pages }}</p>
                                         <p>Progress: {{ ((book.current_page / book.total_pages) * 100) | round | int }}%</p>
