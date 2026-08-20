@@ -46,4 +46,3 @@ Open your browser and navigate to `http://127.0.0.1:8000`.
     *   **Book Counter:** Tracks total books read across weeks, months, and years.
     *   **Insights:** Highlights your most-read authors.
     *   **Reading Streak:** Displays consecutive days spent reading to keep you motivated.
-    *   **Packages:** Send book recommendations to your friends.
