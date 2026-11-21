@@ -17,7 +17,7 @@
                         {% for book in books %}
                             {% if book.status == 'Currently Reading'%}
                                 <div class="book-card">
-                                    <img src="{{ book.cover_url }}" alt="Cover">
+                                    <img src="https://covers.openlibrary.org/b/olid/{{ book.cover_id }}-M.jpg" alt="Cover">
                                     <div>
                                         <h3>{{ book.book_name }}</h3>
                                         <p>Author: {{ book.author }}</p>

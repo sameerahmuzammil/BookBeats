@@ -1,4 +1,5 @@
 #this file only uses get and post method as i'm not using javascript
+#change all code to make it scalable and fix bugs before proceeding to write new code
 
 from fastapi import FastAPI, Request, Form, status, HTTPException
 from fastapi.templating import Jinja2Templates
@@ -23,21 +24,17 @@ def hash_password(password):
 
 @app.post("/signup")
 def signup_user(request: Request, first_name: str = Form(), last_name: str = Form(), email: str = Form(), password: str = Form(), confirm_pass: str = Form()):
+    domain = request.headers.get("host")
+
     if confirm_pass != password:
-        return {"error": "Passwords do not match! Please try again."}
+        return RedirectResponse(url=f"https://{domain}/signup?error=Passwords+do+not+match", status_code=status.HTTP_303_SEE_OTHER)
 
     db = database.Session()
-    email_taken = False
-    all_users = db.query(models.User).all()
+    existing_user = db.query(models.User).filter(models.User.email == email.strip()).first()
 
-    for user in all_users:
-        if user.email == email:
-            email_taken = True
-            break
-
-    if email_taken:
+    if existing_user:
         db.close()
-        return {"error": "An account with this email already exists!"}
+        return RedirectResponse(url=f"https://{domain}/login?error=Email+already+registered", status_code=status.HTTP_303_SEE_OTHER)
     else:
         hashed_pass = hash_password(password)
         new_user = models.User(first_name=first_name.strip(), last_name=last_name.strip(), email=email.strip(), password=hashed_pass)
@@ -45,7 +42,7 @@ def signup_user(request: Request, first_name: str = Form(), last_name: str = For
         db.commit()
 
     db.close()
-    domain = request.headers.get("host")
+
     return RedirectResponse(url=f"https://{domain}/login", status_code=status.HTTP_303_SEE_OTHER)
 
 @app.post("/login")
@@ -411,18 +408,26 @@ def delete_all_tbr_items(request: Request):
 
 @app.post("/delete-account")
 def delete_user(request: Request):
-    user = request.session.get("user_id")
+    current_user_id = request.session.get("user_id")
+    if not current_user_id:
+        domain = request.headers.get("host")
+        return RedirectResponse(url=f"http://{domain}/login", status_code=status.HTTP_303_SEE_OTHER)
+
     db = database.Session()
-    all_users = db.query(models.User).all()
+    try:
+        user_to_delete = db.query(models.User).filter(models.User.user_id == current_user_id).first()
+        
+        if user_to_delete:
+            db.delete(user_to_delete)
+            db.commit()
+            request.session.clear()
+        else:
+            raise HTTPException(status_code=404, detail="User Not Found")
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+    finally:
+        db.close()
 
-    for user in all_users:
-        if user.user_id == user:
-            try:
-                db.delete(user)
-                db.flush()
-            except:
-                raise HTTPException(status_code=404, detail="User Not Found")
-
-    db.commit()
-    db.close()
-    return {"status": "Succesfull! User deleted."}
+    domain = request.headers.get("host")
+    return RedirectResponse(url=f"http://{domain}/signup", status_code=status.HTTP_303_SEE_OTHER)

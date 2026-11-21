@@ -7,9 +7,29 @@
         <title>BookBeats Library</title>
     </head>
     <body>
+        <!--two tabs: tbr and search books-->
         {% include 'sidebar.html' %}
         <div>
             <h1>Your Library</h1>
+            <div class="library-tabs">
+                <input type="radio" id="search-books" name="search-books" checked>
+                <input type="radio" id="tbr-list" name="tbr-list">
+                <label for="search-books">Search Books</label>
+                <label for="tbr-list">TBR List</label>
+            </div>
+            <div class="tbr">
+                {% for book in books %}
+                    <div class="book-card">
+                        <img src="https://covers.openlibrary.org/b/olid/{{ book.cover_id }}-M.jpg" alt="Cover">
+                        <div>
+                            <h3>{{ book.book_name }}</h3>
+                            <p>Author: {{ book.author }}</p>
+                            <p>Rating: {{ book.avg_rating }}</p>
+                            <p>Total Pages: {{ book.total_pages }}</p>
+                        </div>
+                    </div>
+                {% endfor %}    
+            </div>
         </div>
     </body>
 </html>
